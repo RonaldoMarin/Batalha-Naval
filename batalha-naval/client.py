@@ -1,8 +1,20 @@
+"""
+teste
+"""
 import socket
 
 # Crie um socket TCP para o cliente
 tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client_socket.connect(('localhost', 12345))
+
+# Crie um socket UDP para enviar o nome do jogador
+udp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# Nome do jogador
+player_name = input("Digite o nome do jogador: ")
+
+# Envie o nome do jogador por meio do socket UDP
+udp_client_socket.sendto(player_name.encode(), ('localhost', 12346))
 
 # Função para receber dados do servidor e enviar palpites
 def play_game():
@@ -15,9 +27,11 @@ def play_game():
         response = tcp_client_socket.recv(1024).decode()
         print(response)
         if "Todos os navios foram afundados!" in response:
+            print("Você venceu!")
             break
 
 play_game()
 
-# Feche o socket do cliente quando o jogo terminar
+# Feche os sockets quando o jogo terminar
 tcp_client_socket.close()
+udp_client_socket.close()
