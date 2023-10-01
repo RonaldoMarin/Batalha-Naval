@@ -27,6 +27,7 @@ def play_game():
         response = tcp_client_socket.recv(1024).decode()
         print(response)
         if "Todos os navios foram afundados!" in response:
+            print("Você venceu!")
             break
 
 play_game()

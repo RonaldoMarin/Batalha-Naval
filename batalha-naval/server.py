@@ -23,15 +23,15 @@ def generate_board(size):
 def guess_ship_position(board, row, col):
     if board[row][col] == 1:
         board[row][col] = "X"  # Navio atingido
-        return "Hit!"
+        return "Acertou!"
     else:
-        return "Miss!"
+        return "Errou!"
 
 # Receba o nome do jogador por meio do socket UDP
 player_name, player_addr = udp_server_socket.recvfrom(1024)
 print(f"Nome do jogador: {player_name.decode()}")
 
-board_size = 10
+board_size = 2
 tcp_clients = []
 
 # Gere o tabuleiro do jogo
@@ -54,6 +54,7 @@ while True:
         # Receba os palpites do cliente
         guess = conn.recv(1024).decode()
         if not guess:
+            print(f"{player_name} desconectado")
             break  # O cliente desconectou
         row, col = map(int, guess.split())
         
@@ -64,12 +65,15 @@ while True:
 
         # Verifique se todos os navios foram afundados
         if all(all(cell != 1 for cell in row) for row in board):
-            print("Todos os navios foram afundados!")
+            result = "Todos os navios foram afundados!"
+            print(result)
+            conn.send(result.encode())
             break
 
 # Feche os sockets quando o jogo terminar
 for conn in tcp_clients:
     conn.close()
+
 tcp_server_socket.close()
 udp_server_socket.close()
 
