@@ -6,6 +6,10 @@ tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_server_socket.bind(('0.0.0.0', 12345))
 tcp_server_socket.listen(5)
 
+# Crie um socket UDP para receber o nome do jogador
+udp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+udp_server_socket.bind(('0.0.0.0', 12346))
+
 # Função para gerar o tabuleiro do jogo
 def generate_board(size):
     board = [[0 for _ in range(size)] for _ in range(size)]
@@ -22,6 +26,10 @@ def guess_ship_position(board, row, col):
         return "Hit!"
     else:
         return "Miss!"
+
+# Receba o nome do jogador por meio do socket UDP
+player_name, player_addr = udp_server_socket.recvfrom(1024)
+print(f"Nome do jogador: {player_name.decode()}")
 
 board_size = 10
 tcp_clients = []
@@ -63,3 +71,5 @@ while True:
 for conn in tcp_clients:
     conn.close()
 tcp_server_socket.close()
+udp_server_socket.close()
+
