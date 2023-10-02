@@ -4,7 +4,7 @@
 
 1. No terminal do seu computador digite para clonar:
 ```bash
- git clone https://github.com/tads-cnat/SUGEV.git
+ git clone https://github.com/RonaldoMarin/Batalha-Naval.git
 ```
 
 2. Entre no diretório que clonou o repositório:
