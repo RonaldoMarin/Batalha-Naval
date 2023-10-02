@@ -3,12 +3,20 @@ import random
 
 # Crie um socket TCP para o servidor
 tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+"""
+Porta localhost para teste 
+"""
 tcp_server_socket.bind(('0.0.0.0', 12345))
+# tcp_server_socket.bind(('192.168.0.68', 12345))
 tcp_server_socket.listen(5)
 
 # Crie um socket UDP para receber o nome do jogador
 udp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+"""
+Porta localhost para teste 
+"""
 udp_server_socket.bind(('0.0.0.0', 12346))
+# udp_server_socket.bind(('192.168.0.68', 12346))
 
 # Função para gerar o tabuleiro do jogo
 def generate_board(size):
@@ -31,7 +39,9 @@ def guess_ship_position(board, row, col):
 player_name, player_addr = udp_server_socket.recvfrom(1024)
 print(f"Nome do jogador: {player_name.decode()}")
 
-board_size = 2
+
+# Defina o tamanho do tabuleiro aqui
+board_size = 5
 tcp_clients = []
 
 # Gere o tabuleiro do jogo

@@ -7,18 +7,18 @@
  git clone https://github.com/RonaldoMarin/Batalha-Naval.git
 ```
 
-2. Entre no diretório que clonou o repositório:
+2. Entre no diretório que clonou o repositório e depois no diretório "batalha-naval":
 ```bash
 cd <caminho do diretório>
 ```
 
-4.  Inicializa o servidor
+3.  Inicializa o servidor
 
 ```bash
  py server.py
 ```
 
-5. Inicializa o cliente
+4. Inicializa o cliente
 ```bash
  py client.py
 ```
