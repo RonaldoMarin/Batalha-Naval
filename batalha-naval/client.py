@@ -1,6 +1,3 @@
-"""
-teste
-"""
 import socket
 
 # Crie um socket TCP para o cliente
