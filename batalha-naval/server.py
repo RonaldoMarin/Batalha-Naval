@@ -29,19 +29,24 @@ def generate_board(size):
 
 # Função para verificar o palpite do cliente
 def guess_ship_position(board, row, col):
-    if board[row][col] == 1:
-        board[row][col] = "X"  # Navio atingido
+    if board[row-1][col-1] == 1:
+        board[row-1][col-1] = "X"  # Navio atingido
+        print("Tabuleiro do jogo:")
+        for row in board:
+            print(" ".join(map(str, row)))
         return "Acertou!"
+    
     else:
         return "Errou!"
 
 # Receba o nome do jogador por meio do socket UDP
 player_name, player_addr = udp_server_socket.recvfrom(1024)
-print(f"Nome do jogador: {player_name.decode()}")
+player_name = player_name.decode()
+print(f"Nome do jogador: {player_name}")
 
 
 # Defina o tamanho do tabuleiro aqui
-board_size = 5
+board_size = 3
 tcp_clients = []
 
 # Gere o tabuleiro do jogo
@@ -70,15 +75,16 @@ while True:
         
         # Verifique o palpite e envie uma resposta ao cliente
         result = guess_ship_position(board, row, col)
-        print(f"Palpite de {addr}: ({row}, {col}) -> {result}")
-        conn.send(result.encode())
-
+        print(f"Palpite de {addr} | {player_name}: ({row}, {col}) -> {result}")
+                
         # Verifique se todos os navios foram afundados
         if all(all(cell != 1 for cell in row) for row in board):
             result = "Todos os navios foram afundados!"
             print(result)
             conn.send(result.encode())
             break
+            
+        conn.send(result.encode())
 
 # Feche os sockets quando o jogo terminar
 for conn in tcp_clients:
